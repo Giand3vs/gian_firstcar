@@ -1,0 +1,86 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Selection</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: transparent;
+        }
+
+        #car-container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            border: 2px solid #ccc;
+            display: none;
+            background-color: rgba(0, 0, 0, 1.0);
+            color: rgba(255, 255, 255, 1.0);
+        }
+
+        .car-option {
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .car-image {
+            width: 200px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #selected-car {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="car-container">
+        <div class="car-option" onclick="selectCar('blista')">
+            <img class="car-image" src="https://img.gta5-mods.com/q95/images/gta-5-volkswagen-gol-gl-1-8-mod/7f59b9-GTA5%202015-08-15%2013-37-26-24.jpg" alt="blista">
+            <p>Gol 1.8</p>
+        </div>
+        <div class="car-option" onclick="selectCar('av11')">
+            <img class="car-image" src="https://img.gta5-mods.com/q95/images/chevrolet-aveo-hb-2011-add-on/52df3b-374219700_829220815247159_823854878637600385_n.jpg" alt="surfer2">
+            <p>Aveo</p>
+        </div>
+        <div class="car-option" onclick="selectCar('Micrak11')">
+            <img class="car-image" src="https://img.gta5-mods.com/q95/images/nissan-micra-1998-add-on/ca7c7d-1.png" alt="amxss">
+            <p>Micrak</p>
+        </div>
+
+        <div id="selected-car"></div>
+    </div>
+
+    <script>
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'showCarSelection') {
+                document.getElementById('car-container').style.display = 'block';
+            } else if (event.data.type === 'closeUI') {
+                document.getElementById('car-container').style.display = 'none';
+                $.post("https://gian_firstcar/close")
+            }
+        });
+
+        function selectCar(car) {
+            const selectedCarElement = document.getElementById('selected-car');
+            $.post("https://gian_firstcar/giveVehicle", JSON.stringify(car))
+        }
+    </script>
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+</body>
+</html>
